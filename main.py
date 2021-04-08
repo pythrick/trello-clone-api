@@ -3,6 +3,7 @@ from typing import List
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -12,6 +13,18 @@ from trello_clone_api.services import board as board_services
 from trello_clone_api.services import card as card_services
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8080"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 @app.post("/boards/", status_code=201, response_model=schemas.BoardSchema)
@@ -70,6 +83,11 @@ async def list_cards(
         for card in await card_services.list_cards(session, board_id)
     ]
 
+
+# TODO: Criar rota para excluir Card
+# TODO: Criar rota para excluir Board
+# TODO: Criar rota para edição de Board
+# TODO: Implementar `progress` na consulta de Board
 
 if __name__ == "__main__":
     asyncio.run(init_models())

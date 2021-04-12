@@ -10,7 +10,6 @@ from trello_clone_api.services import board as board_services
 router = APIRouter(prefix="/boards", tags=["boards"])
 
 # TODO: Criar rota para excluir Board
-# TODO: Criar rota para edição de Board
 # TODO: Implementar `progress` na consulta de Board
 
 
@@ -51,3 +50,18 @@ async def edit_board(
     updated_board = await board_services.update_board(session, board_db.id, board)
     await session.commit()
     return schemas.BoardSchema.from_orm(updated_board)
+
+
+@router.delete("/:id", status_code=status.HTTP_204_NO_CONTENT)
+async def remove_board(
+    id: int,
+    session: AsyncSession = Depends(get_session),
+):
+    try:
+        board_db = await board_services.get_board(session, id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Card not found."
+        ) from e
+    await board_services.delete_board(session, board_db.id)
+    await session.commit()

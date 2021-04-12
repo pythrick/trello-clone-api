@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from trello_clone_api.models import Board
 from trello_clone_api.schemas import BoardInSchema
@@ -21,6 +21,10 @@ async def update_board(
     data = board_schema.dict(exclude_none=True)
     await session.execute(update(Board).values(**data).where(Board.id == id))
     return await get_board(session, id)
+
+
+async def delete_board(session: AsyncSession, id: int) -> None:
+    await session.execute(delete(Board).where(Board.id == id))
 
 
 async def list_boards(session: AsyncSession) -> list[Board]:

@@ -1,17 +1,11 @@
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException
-
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from trello_clone_api import schemas
 from trello_clone_api.db.base import get_session
-
-
 from trello_clone_api.services import board as board_services
-
-from fastapi import APIRouter
 
 router = APIRouter(prefix="/boards", tags=["boards"])
 
@@ -40,3 +34,20 @@ async def list_boards(
         schemas.BoardSchema.from_orm(board)
         for board in await board_services.list_boards(session)
     ]
+
+
+@router.patch(
+    "/:id", status_code=status.HTTP_200_OK, response_model=schemas.BoardSchema
+)
+async def edit_board(
+    id: int,
+    board: schemas.BoardInSchema,
+    session: AsyncSession = Depends(get_session),
+) -> schemas.BoardSchema:
+    try:
+        board_db = await board_services.get_board(session, id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Board not found.") from e
+    updated_board = await board_services.update_board(session, board_db.id, board)
+    await session.commit()
+    return schemas.BoardSchema.from_orm(updated_board)

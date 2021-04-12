@@ -10,7 +10,7 @@ services:
       - .:/app
     stdin_open: true
     tty: true
-    command: ["python", "main.py"]
+    command: ["python", "trello_clone_api/main.py"]
     depends_on:
       - db
     ports:

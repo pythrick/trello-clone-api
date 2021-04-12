@@ -1,6 +1,5 @@
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from trello_clone_api.models import Card
 from trello_clone_api.schemas import CardInSchema, CardUpdateSchema
 
@@ -32,3 +31,7 @@ async def update_card(
     data = card_schema.dict(exclude_none=True)
     await session.execute(update(Card).values(**data).where(Card.id == id))
     return await get_card(session, id)
+
+
+async def delete_card(session: AsyncSession, id: int) -> None:
+    await session.execute(delete(Card).where(Card.id == id))

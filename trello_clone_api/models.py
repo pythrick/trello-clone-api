@@ -12,7 +12,7 @@ class Board(Base):
     name = Column(String, unique=True)
     description = Column(String)
     cards = relationship("Card", back_populates="board")
-
+    progress = 0
     # required in order to access columns with server defaults
     # or SQL expression defaults, subsequent to a flush, without
     # triggering an expired load

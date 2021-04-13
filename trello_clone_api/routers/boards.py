@@ -9,9 +9,6 @@ from trello_clone_api.services import board as board_services
 
 router = APIRouter(prefix="/boards", tags=["boards"])
 
-# TODO: Criar rota para excluir Board
-# TODO: Implementar `progress` na consulta de Board
-
 
 @router.post("/", status_code=201, response_model=schemas.BoardSchema)
 async def add_board(

@@ -14,7 +14,7 @@ class BoardSchema(BaseModel):
     id: int
     name: str
     description: str
-    progress: Optional[float]
+    progress: float = 0.0
 
     class Config:
         orm_mode = True

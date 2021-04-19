@@ -2,15 +2,15 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from trello_clone_api.enums import CardStatus
+from trello_clone_api.enums import TaskStatus
 
 
-class BoardInSchema(BaseModel):
+class ProjectInSchema(BaseModel):
     name: str
     description: str
 
 
-class BoardSchema(BaseModel):
+class ProjectSchema(BaseModel):
     id: int
     name: str
     description: str
@@ -20,25 +20,25 @@ class BoardSchema(BaseModel):
         orm_mode = True
 
 
-class CardInSchema(BaseModel):
+class TaskInSchema(BaseModel):
     name: str
     description: str
-    status: CardStatus
-    board_id: int
+    status: TaskStatus
+    project_id: int
 
 
-class CardUpdateSchema(BaseModel):
+class TaskUpdateSchema(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    status: Optional[CardStatus] = None
+    status: Optional[TaskStatus] = None
 
 
-class CardSchema(BaseModel):
+class TaskSchema(BaseModel):
     id: int
     name: str
     description: str
-    status: CardStatus
-    board_id: int
+    status: TaskStatus
+    project_id: int
 
     class Config:
         orm_mode = True

@@ -1,14 +1,17 @@
+import asyncio
+
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from trello_clone_api.routers.boards import router as board_router
-from trello_clone_api.routers.cards import router as card_router
+from trello_clone_api.db.base import init_models
+from trello_clone_api.routers.projects import router as project_router
+from trello_clone_api.routers.tasks import router as task_router
 
 app = FastAPI()
 
-app.include_router(board_router)
-app.include_router(card_router)
+app.include_router(project_router)
+app.include_router(task_router)
 
 
 app.add_middleware(
@@ -21,5 +24,5 @@ app.add_middleware(
 
 
 if __name__ == "__main__":
-    # asyncio.run(init_models())
+    asyncio.run(init_models())
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

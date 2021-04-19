@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from trello_clone_api.routers.boards import router as board_router
 from trello_clone_api.routers.cards import router as card_router
 
@@ -9,11 +10,10 @@ app = FastAPI()
 app.include_router(board_router)
 app.include_router(card_router)
 
-origins = ["http://localhost:8080"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

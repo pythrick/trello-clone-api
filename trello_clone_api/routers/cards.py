@@ -31,7 +31,9 @@ async def add_card(
     return schemas.CardSchema.from_orm(new_card)
 
 
-@router.patch("/:id", status_code=status.HTTP_200_OK, response_model=schemas.CardSchema)
+@router.patch(
+    "/{id}", status_code=status.HTTP_200_OK, response_model=schemas.CardSchema
+)
 async def edit_card(
     id: int,
     card: schemas.CardUpdateSchema,
@@ -46,7 +48,7 @@ async def edit_card(
     return schemas.CardSchema.from_orm(updated_card)
 
 
-@router.delete("/:id", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def remove_card(
     id: int,
     session: AsyncSession = Depends(get_session),

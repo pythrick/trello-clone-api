@@ -33,7 +33,7 @@ async def list_boards(
 
 
 @router.patch(
-    "/:id", status_code=status.HTTP_200_OK, response_model=schemas.BoardSchema
+    "/{id}", status_code=status.HTTP_200_OK, response_model=schemas.BoardSchema
 )
 async def edit_board(
     id: int,
@@ -49,7 +49,7 @@ async def edit_board(
     return schemas.BoardSchema.from_orm(updated_board)
 
 
-@router.delete("/:id", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def remove_board(
     id: int,
     session: AsyncSession = Depends(get_session),

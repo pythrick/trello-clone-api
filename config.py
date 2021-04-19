@@ -1,3 +1,3 @@
 from decouple import config
 
-PYDANTIC_DATABASE_URL = config("PYDANTIC_DATABASE_URL")
+DATABASE_URL = config("DATABASE_URL")

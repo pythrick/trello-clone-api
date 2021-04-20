@@ -1,4 +1,4 @@
-from sqlalchemy import delete, select, update
+from sqlalchemy import delete, desc, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from trello_clone_api.models import Task
 from trello_clone_api.schemas import TaskInSchema, TaskUpdateSchema
@@ -16,7 +16,9 @@ async def create_task(session: AsyncSession, task: TaskInSchema) -> Task:
 
 
 async def list_tasks(session: AsyncSession, project_id) -> list[Task]:
-    result = await session.execute(select(Task).where(Task.project_id == project_id))
+    result = await session.execute(
+        select(Task).where(Task.project_id == project_id).order_by(desc(Task.id))
+    )
     return result.scalars().all()
 
 

@@ -1,4 +1,4 @@
-from sqlalchemy import and_, case
+from sqlalchemy import and_, case, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import delete, func, select, update
 from trello_clone_api.enums import TaskStatus
@@ -52,7 +52,7 @@ async def list_projects(session: AsyncSession) -> list[Project]:
         .where(
             Project.id == done_query.c.id,
         )
-        .order_by(Project.id)
+        .order_by(desc(Project.id))
     )
     result = await session.execute(stmt)
     result = result.all()

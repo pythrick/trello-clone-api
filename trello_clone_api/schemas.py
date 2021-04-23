@@ -8,12 +8,14 @@ from trello_clone_api.enums import TaskStatus
 class ProjectInSchema(BaseModel):
     name: str
     description: str
+    color: str
 
 
 class ProjectSchema(BaseModel):
     id: int
     name: str
     description: str
+    color: str
     progress: float = 0.0
 
     class Config:

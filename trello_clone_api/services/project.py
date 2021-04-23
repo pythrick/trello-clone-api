@@ -12,7 +12,7 @@ async def get_project(session: AsyncSession, id: int) -> Project:
 
 
 async def create_project(session: AsyncSession, project: ProjectInSchema) -> Project:
-    project = Project(name=project.name, description=project.description)
+    project = Project(**project.dict())
     session.add(project)
     return project
 

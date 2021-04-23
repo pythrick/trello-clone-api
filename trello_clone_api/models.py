@@ -9,10 +9,11 @@ class Project(Base):
     __tablename__ = "projects"
 
     id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    name = Column(String, unique=True)
-    description = Column(String)
+    name = Column(String, unique=True, nullable=False)
+    description = Column(String, nullable=False)
     tasks = relationship("Task", back_populates="project")
     progress = 0
+    color = Column(String, nullable=False)
     # required in order to access columns with server defaults
     # or SQL expression defaults, subsequent to a flush, without
     # triggering an expired load
